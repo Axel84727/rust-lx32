@@ -25,10 +25,9 @@ llvm-config = "@LLVM_BUILD@/bin/llvm-config"
 # The lx32 triple tells bootstrap to compile `core` for the firmware target.
 host   = ["@HOST_TRIPLE@"]
 target = ["@HOST_TRIPLE@", "lx32-unknown-none-elf"]
-# Skip docs and IDE tools; we only need the compiler + lld.
+# Skip docs and IDE tools — lld comes from the LLVM fork, not the Rust build.
 docs       = false
 extended   = false
-tools      = ["lld"]
 
 # ── Rust compiler ────────────────────────────────────────────────────────────
 
@@ -37,9 +36,8 @@ tools      = ["lld"]
 channel     = "dev"
 # Incremental builds are much faster after the first bootstrap.
 incremental = true
-# Abort on panic matches the firmware's panic strategy.
-# (The compiler itself still unwinds — this only applies to the generated code.)
-lld         = true
+# Note: `lld = true` is incompatible with an external llvm-config — omit it.
+# The firmware linker is $(LX32_LLVM_BIN)/ld.lld, passed via RUSTFLAGS.
 
 # ── Install ──────────────────────────────────────────────────────────────────
 
