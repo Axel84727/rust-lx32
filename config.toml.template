@@ -20,12 +20,15 @@ llvm-config = "@LLVM_BUILD@/bin/llvm-config"
 # ── Build ────────────────────────────────────────────────────────────────────
 
 [build]
-# Build the host compiler AND the lx32 cross-target sysroot (core + compiler_builtins).
-# The host triple is needed so stage-1 rustc can run on this machine.
-# The lx32 triple tells bootstrap to compile `core` for the firmware target.
+# Build the compiler for the host only.
+# We do NOT cross-compile core/compiler_builtins here: cc-rs (used by
+# compiler_builtins) panics on unknown architectures when the stage-0 system
+# rustc doesn't know about lx32.  The core sysroot is compiled on demand via
+# `cargo -Z build-std=core,compiler_builtins` using our freshly-built rustc,
+# which does know the lx32-unknown-none-elf target.
 host   = ["@HOST_TRIPLE@"]
-target = ["@HOST_TRIPLE@", "lx32-unknown-none-elf"]
-# Skip docs and IDE tools — lld comes from the LLVM fork, not the Rust build.
+target = ["@HOST_TRIPLE@"]
+# Skip docs and IDE tools.
 docs       = false
 extended   = false
 
