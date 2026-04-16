@@ -45,6 +45,9 @@ incremental = true
 # ── Install ──────────────────────────────────────────────────────────────────
 
 [install]
-# Install into the .rust/dist directory so the Makefile can locate the toolchain
-# without touching system paths.
-prefix = "@RUST_DIR@/dist"
+# Install everything under .rust/dist so we never touch system paths.
+prefix     = "@RUST_DIR@/dist"
+sysconfdir = "@RUST_DIR@/dist/etc"
+datadir    = "@RUST_DIR@/dist/share"
+infodir    = "@RUST_DIR@/dist/share/info"
+localstatedir = "@RUST_DIR@/dist/var"
