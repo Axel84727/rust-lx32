@@ -49,5 +49,5 @@ incremental = true
 prefix     = "@RUST_DIR@/dist"
 sysconfdir = "@RUST_DIR@/dist/etc"
 datadir    = "@RUST_DIR@/dist/share"
-infodir    = "@RUST_DIR@/dist/share/info"
-localstatedir = "@RUST_DIR@/dist/var"
+mandir     = "@RUST_DIR@/dist/share/man"
+docdir     = "@RUST_DIR@/dist/share/doc/rust"
