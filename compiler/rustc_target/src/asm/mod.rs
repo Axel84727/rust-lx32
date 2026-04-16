@@ -273,6 +273,9 @@ impl InlineAsmArch {
             Arch::Msp430 => Some(Self::Msp430),
             Arch::M68k => Some(Self::M68k),
             Arch::CSky => Some(Self::CSKY),
+            // LX32 is a RISC-V-derived ISA — reuse the RV32 register classes
+            // so that `asm!` operands (reg, freg, etc.) work correctly.
+            Arch::Lx32 => Some(Self::RiscV32),
             Arch::AmdGpu | Arch::Xtensa | Arch::Other(_) => None,
         }
     }

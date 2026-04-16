@@ -704,7 +704,8 @@ impl<'a, Ty> FnAbi<'a, Ty> {
             }
             Arch::Hexagon => hexagon::compute_abi_info(cx, self),
             Arch::Xtensa => xtensa::compute_abi_info(cx, self),
-            Arch::RiscV32 | Arch::RiscV64 => riscv::compute_abi_info(cx, self),
+            // LX32 inherits the RISC-V calling convention (RV32 ILP32).
+            Arch::Lx32 | Arch::RiscV32 | Arch::RiscV64 => riscv::compute_abi_info(cx, self),
             Arch::Wasm32 | Arch::Wasm64 => wasm::compute_abi_info(cx, self),
             Arch::Bpf => bpf::compute_abi_info(cx, self),
             arch @ (Arch::SpirV | Arch::Other(_)) => {
