@@ -1086,7 +1086,9 @@ pub(super) fn emit_va_arg<'ll, 'tcx>(
             // > behavior may be changed when RV32E/ILP32E is ratified.
             bug!("c-variadic calls with ilp32e use a custom ABI and are not currently implemented");
         }
-        Arch::RiscV32 | Arch::LoongArch32 => emit_ptr_va_arg(
+        // LX32 inherits RV32 va_arg semantics (c-variadics are disabled for
+        // this target, but the match must be exhaustive).
+        Arch::Lx32 | Arch::RiscV32 | Arch::LoongArch32 => emit_ptr_va_arg(
             bx,
             addr,
             target_ty,
