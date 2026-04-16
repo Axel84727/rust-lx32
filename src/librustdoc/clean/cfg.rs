@@ -559,6 +559,7 @@ fn human_readable_target_arch(os: Symbol) -> Option<&'static str> {
         Bpf => "BPF",
         CSky => "C-SKY",
         Hexagon => "Hexagon",
+        Lx32 => "PULSAR LX32K",
         LoongArch32 => "LoongArch32",
         LoongArch64 => "LoongArch64",
         M68k => "Motorola 680x0",
