@@ -28,9 +28,12 @@ llvm-config = "@LLVM_BUILD@/bin/llvm-config"
 # which does know the lx32-unknown-none-elf target.
 host   = ["@HOST_TRIPLE@"]
 target = ["@HOST_TRIPLE@"]
-# Skip docs and IDE tools.
+# Build cargo alongside rustc so `rustup run lx32 cargo` is available and
+# supports -Z flags (channel = "dev" is treated as nightly by cargo).
+# lld is NOT listed — it comes from the LLVM fork, not the Rust bootstrap.
 docs       = false
 extended   = false
+tools      = ["cargo"]
 
 # ── Rust compiler ────────────────────────────────────────────────────────────
 
