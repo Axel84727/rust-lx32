@@ -20,12 +20,14 @@ llvm-config = "@LLVM_BUILD@/bin/llvm-config"
 # ── Build ────────────────────────────────────────────────────────────────────
 
 [build]
-# Only build the cross target — no need for a full host-native std.
-target = ["lx32-unknown-none-elf"]
-# Build the compiler and core library; skip docs and large extended tools.
+# Build the host compiler AND the lx32 cross-target sysroot (core + compiler_builtins).
+# The host triple is needed so stage-1 rustc can run on this machine.
+# The lx32 triple tells bootstrap to compile `core` for the firmware target.
+host   = ["@HOST_TRIPLE@"]
+target = ["@HOST_TRIPLE@", "lx32-unknown-none-elf"]
+# Skip docs and IDE tools; we only need the compiler + lld.
 docs       = false
 extended   = false
-# Enable LLD so firmware can be linked without an external toolchain.
 tools      = ["lld"]
 
 # ── Rust compiler ────────────────────────────────────────────────────────────
