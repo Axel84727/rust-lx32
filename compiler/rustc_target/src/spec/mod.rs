@@ -1700,6 +1700,7 @@ supported_targets! {
     ("riscv32im-risc0-zkvm-elf", riscv32im_risc0_zkvm_elf),
     ("riscv32im-unknown-none-elf", riscv32im_unknown_none_elf),
     ("riscv32ima-unknown-none-elf", riscv32ima_unknown_none_elf),
+    ("lx32-unknown-none-elf", lx32_unknown_none_elf),
     ("riscv32imc-unknown-none-elf", riscv32imc_unknown_none_elf),
     ("riscv32imc-esp-espidf", riscv32imc_esp_espidf),
     ("riscv32imac-esp-espidf", riscv32imac_esp_espidf),
@@ -1900,6 +1901,7 @@ crate::target_spec_enum! {
         Bpf = "bpf",
         CSky = "csky",
         Hexagon = "hexagon",
+        Lx32 = "lx32",
         LoongArch32 = "loongarch32",
         LoongArch64 = "loongarch64",
         M68k = "m68k",
@@ -1937,6 +1939,7 @@ impl Arch {
             Self::Bpf => sym::bpf,
             Self::CSky => sym::csky,
             Self::Hexagon => sym::hexagon,
+            Self::Lx32 => sym::lx32,
             Self::LoongArch32 => sym::loongarch32,
             Self::LoongArch64 => sym::loongarch64,
             Self::M68k => sym::m68k,
@@ -1972,7 +1975,7 @@ impl Arch {
             AmdGpu | Arm | Arm64EC | Avr | Bpf | CSky | Hexagon | LoongArch32 | LoongArch64
             | M68k | Mips | Mips32r6 | Mips64 | Mips64r6 | Msp430 | Nvptx64 | PowerPC
             | PowerPC64 | S390x | Sparc | Sparc64 | SpirV | Wasm32 | Wasm64 | X86 | X86_64
-            | Xtensa | Other(_) => false,
+            | Lx32 | Xtensa | Other(_) => false,
         }
     }
 }
@@ -2226,7 +2229,7 @@ impl Target {
 
             // We don't know how c-variadics work for this target. Using the default LLVM
             // fallback implementation may work, but just to be safe we disallow this.
-            Other(_) => false,
+            Lx32 | Other(_) => false,
 
             AArch64 | AmdGpu | Arm | Arm64EC | Avr | CSky | Hexagon | LoongArch32 | LoongArch64
             | M68k | Mips | Mips32r6 | Mips64 | Mips64r6 | Msp430 | Nvptx64 | PowerPC
@@ -3826,6 +3829,7 @@ impl Target {
             Arch::CSky => (Architecture::Csky, None),
             Arch::Arm64EC => (Architecture::Aarch64, Some(object::SubArchitecture::Arm64EC)),
             Arch::AmdGpu
+            | Arch::Lx32
             | Arch::Nvptx64
             | Arch::SpirV
             | Arch::Wasm32

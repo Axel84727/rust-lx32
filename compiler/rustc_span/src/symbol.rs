@@ -1659,6 +1659,7 @@ symbols! {
         result_ffi_guarantees,
         return_position_impl_trait_in_trait,
         return_type_notation,
+        lx32,
         riscv32,
         riscv64,
         riscv_target_feature,

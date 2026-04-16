@@ -1,0 +1,47 @@
+# LX32 Rust toolchain build configuration template.
+# Generated from: tools/lx32-rust-config.toml.template in the Pulsar repo.
+# Instantiated by: make rust-setup  (replaces @LLVM_BUILD@ and @HOST_TRIPLE@)
+#
+# Do NOT check this file into .rust/ after generation — it contains
+# machine-specific absolute paths.  The template lives in the Pulsar repo.
+
+# ── LLVM ────────────────────────────────────────────────────────────────────
+
+[llvm]
+# Use our custom LLVM fork (with LX32 backend) instead of downloading a CI LLVM.
+download-ci-llvm = false
+# Let Ninja choose the parallelism; cmake will pass -j automatically.
+ninja = true
+
+# Point the host target at our custom LLVM build.
+[target.@HOST_TRIPLE@]
+llvm-config = "@LLVM_BUILD@/bin/llvm-config"
+
+# ── Build ────────────────────────────────────────────────────────────────────
+
+[build]
+# Only build the cross target — no need for a full host-native std.
+target = ["lx32-unknown-none-elf"]
+# Build the compiler and core library; skip docs and large extended tools.
+docs       = false
+extended   = false
+# Enable LLD so firmware can be linked without an external toolchain.
+tools      = ["lld"]
+
+# ── Rust compiler ────────────────────────────────────────────────────────────
+
+[rust]
+# Dev channel keeps version strings clean during development.
+channel     = "dev"
+# Incremental builds are much faster after the first bootstrap.
+incremental = true
+# Abort on panic matches the firmware's panic strategy.
+# (The compiler itself still unwinds — this only applies to the generated code.)
+lld         = true
+
+# ── Install ──────────────────────────────────────────────────────────────────
+
+[install]
+# Install into the .rust/dist directory so the Makefile can locate the toolchain
+# without touching system paths.
+prefix = "@RUST_DIR@/dist"
