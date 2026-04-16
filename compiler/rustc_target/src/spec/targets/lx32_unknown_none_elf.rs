@@ -12,7 +12,7 @@ use crate::spec::{
 
 pub(crate) fn target() -> Target {
     Target {
-        data_layout: "e-m:e-p:32:32-i64:64-n32-S128".into(),
+        data_layout: "e-m:e-p:32:32-i64:64-n32-S32".into(),
         llvm_target: "lx32-unknown-none-elf".into(),
         metadata: TargetMetadata {
             description: Some("PULSAR LX32K keyboard processor (bare metal, no std)".into()),

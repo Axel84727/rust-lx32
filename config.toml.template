@@ -20,12 +20,12 @@ llvm-config = "@LLVM_BUILD@/bin/llvm-config"
 # ── Build ────────────────────────────────────────────────────────────────────
 
 [build]
-# Build the compiler for the host only.
-# We do NOT cross-compile core/compiler_builtins here: cc-rs (used by
-# compiler_builtins) panics on unknown architectures when the stage-0 system
-# rustc doesn't know about lx32.  The core sysroot is compiled on demand via
-# `cargo -Z build-std=core,compiler_builtins` using our freshly-built rustc,
-# which does know the lx32-unknown-none-elf target.
+# Build compiler + host std library so compiler_builtins' build.rs can link
+# against std when cargo -Z build-std runs it on the host.
+# We do NOT cross-compile for lx32 here: cc-rs (used by compiler_builtins)
+# panics on unknown architectures when the stage-0 system rustc doesn't know
+# about lx32.  The core sysroot is compiled on demand at cargo build time via
+# -Z build-std=core,compiler_builtins using our freshly-built rustc.
 host   = ["@HOST_TRIPLE@"]
 target = ["@HOST_TRIPLE@"]
 # Build cargo alongside rustc so `rustup run lx32 cargo` is available and
