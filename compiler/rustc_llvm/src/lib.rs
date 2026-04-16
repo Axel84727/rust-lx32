@@ -223,6 +223,14 @@ pub fn initialize_available_targets() {
         LLVMInitializeXtensaAsmParser
     );
     init_target!(
+        llvm_component = "lx32",
+        LLVMInitializeLX32TargetInfo,
+        LLVMInitializeLX32Target,
+        LLVMInitializeLX32TargetMC,
+        LLVMInitializeLX32AsmPrinter,
+        LLVMInitializeLX32AsmParser
+    );
+    init_target!(
         llvm_component = "webassembly",
         LLVMInitializeWebAssemblyTargetInfo,
         LLVMInitializeWebAssemblyTarget,

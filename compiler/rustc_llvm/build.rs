@@ -28,6 +28,7 @@ const OPTIONAL_COMPONENTS: &[&str] = &[
     "riscv",
     "xtensa",
     "bpf",
+    "lx32",
 ];
 
 const REQUIRED_COMPONENTS: &[&str] =
