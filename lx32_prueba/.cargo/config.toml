@@ -1,0 +1,23 @@
+# .cargo/config.toml for lx32_prueba
+#
+# Targets lx32-unknown-none-elf using the custom stage1 rustc.
+# The RUSTC env variable is set by the Makefile (make build-firmware).
+#
+# Manual build:
+#   RUSTC=/path/to/rust-lx32/build/<host>/stage1/bin/rustc \
+#   cargo build --release
+
+[build]
+target = "lx32-unknown-none-elf"
+
+[target.lx32-unknown-none-elf]
+linker = "ld.lld"
+rustflags = [
+    "-C", "link-arg=--gc-sections",
+]
+
+[profile.release]
+opt-level     = "z"
+panic         = "abort"
+codegen-units = 1
+lto           = true

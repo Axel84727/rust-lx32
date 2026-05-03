@@ -32,6 +32,8 @@ Session.vim
 .cargo
 # Included because it is part of the test case
 !/tests/run-make/thumb-none-qemu/example/.cargo
+# lx32_prueba cargo config is part of the crate, not user state
+!/lx32_prueba/.cargo
 
 ## Configuration
 /bootstrap.toml
