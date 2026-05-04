@@ -144,12 +144,12 @@ fn emit_f16_f128_cfg(cfg: &Config) {
     /* See the compiler-builtins configure file for info about the meaning of these options */
 
     println!("cargo:rustc-check-cfg=cfg(f16_enabled)");
-    if cfg.reliable_f16 {
+    if cfg.reliable_f16 && cfg.arch != "lx32" {
         println!("cargo:rustc-cfg=f16_enabled");
     }
 
     println!("cargo:rustc-check-cfg=cfg(f128_enabled)");
-    if cfg.reliable_f128 {
+    if cfg.reliable_f128 && cfg.arch != "lx32" {
         println!("cargo:rustc-cfg=f128_enabled");
     }
 }
