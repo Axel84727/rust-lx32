@@ -371,6 +371,8 @@ fn update_target_reliable_float_cfg(sess: &Session, cfg: &mut TargetConfig) {
     let (major, _, _) = version;
 
     cfg.has_reliable_f16 = match (target_arch, target_os) {
+        // LX32 backend currently supports soft-float for f32/f64 only.
+        (Arch::Lx32, _) => false,
         // Unsupported <https://github.com/llvm/llvm-project/issues/94434> (fixed in llvm22)
         (Arch::Arm64EC, _) if major < 22 => false,
         // MinGW ABI bugs <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=115054>
@@ -389,6 +391,8 @@ fn update_target_reliable_float_cfg(sess: &Session, cfg: &mut TargetConfig) {
     };
 
     cfg.has_reliable_f128 = match (target_arch, target_os) {
+        // LX32 backend currently supports soft-float for f32/f64 only.
+        (Arch::Lx32, _) => false,
         // Unsupported https://github.com/llvm/llvm-project/issues/121122
         (Arch::AmdGpu, _) => false,
         // Unsupported <https://github.com/llvm/llvm-project/issues/94434>

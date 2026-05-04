@@ -96,12 +96,12 @@ pub fn configure_aliases(target: &Target) {
      */
 
     println!("cargo::rustc-check-cfg=cfg(f16_enabled)");
-    if target.reliable_f16 {
+    if target.reliable_f16 && target.arch != "lx32" {
         println!("cargo::rustc-cfg=f16_enabled");
     }
 
     println!("cargo::rustc-check-cfg=cfg(f128_enabled)");
-    if target.reliable_f128 {
+    if target.reliable_f128 && target.arch != "lx32" {
         println!("cargo::rustc-cfg=f128_enabled");
     }
 }

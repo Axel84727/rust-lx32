@@ -1,9 +1,21 @@
+#[cfg(not(target_arch = "lx32"))]
 #[rustfmt::skip]
 #[allow(dead_code)]
 #[allow(unused_imports)]
 #[allow(clippy::all)]
 #[path = "../../../libm/src/math/mod.rs"]
 pub(crate) mod libm_math;
+
+// LX32 currently lacks full libcall coverage for the complete libm surface.
+// Keep only `support` available so integer/soft-float builtins still compile.
+#[cfg(target_arch = "lx32")]
+#[path = "../../../libm/src/math/support/mod.rs"]
+pub(crate) mod lx32_libm_support;
+
+#[cfg(target_arch = "lx32")]
+pub(crate) mod libm_math {
+    pub(crate) use super::lx32_libm_support as support;
+}
 
 macro_rules! libm_intrinsics {
     ($(fn $fun:ident($($iid:ident : $ity:ty),+) -> $oty:ty;)+) => {
@@ -19,6 +31,7 @@ macro_rules! libm_intrinsics {
 
 /// This set of functions is well tested in `libm` and known to provide similar performance to
 /// system `libm`, as well as the same or better accuracy.
+#[cfg(not(target_arch = "lx32"))]
 pub mod full_availability {
     #[cfg(f16_enabled)]
     libm_intrinsics! {
@@ -130,7 +143,7 @@ pub mod full_availability {
 ///     - <https://github.com/rust-lang/rust/issues/128533>
 /// - All unix targets (linux, macos, freebsd, android, etc)
 /// - wasm with known target_os
-#[cfg(not(any(
+#[cfg(all(not(target_arch = "lx32"), not(any(
     all(
         target_arch = "x86",
         not(target_feature = "sse2"),
@@ -138,7 +151,7 @@ pub mod full_availability {
     ),
     unix,
     all(target_family = "wasm", not(target_os = "unknown"))
-)))]
+))))]
 pub mod partial_availability {
     #[cfg(not(windows))]
     libm_intrinsics! {
